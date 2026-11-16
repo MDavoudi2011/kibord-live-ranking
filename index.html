@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>جدول زنده پروژه‌های نمایشگاه مجازی کیبرد</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f6f8fc;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #64748b;
+      --primary: #2563eb;
+      --primary-soft: #eff6ff;
+      --primary-border: #bfdbfe;
+      --emerald: #059669;
+      --emerald-soft: #ecfdf5;
+      --violet: #6d28d9;
+      --violet-soft: #f5f3ff;
+      --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 6px 20px rgba(15, 23, 42, 0.035);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 24px 16px 44px;
+      font-family: "Vazirmatn", Tahoma, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.055), transparent 42%),
+        radial-gradient(circle at top right, rgba(16, 185, 129, 0.055), transparent 40%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    /* Top 3-tab switcher */
+    .track-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 6px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+    .track-tab {
+      font-family: inherit;
+      font-size: 0.92rem;
+      font-weight: 700;
+      padding: 10px 8px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: center;
+      letter-spacing: 0.01em;
+    }
+    .track-tab:hover {
+      color: var(--text);
+      background: var(--surface-soft);
+    }
+    .track-tab.active {
+      background: var(--text);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.16);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+    .subtitle {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 18px;
+      box-shadow: var(--shadow);
+    }
+    .stat-card.highlight {
+      background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
+      border-color: var(--primary-border);
+    }
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .stat-sub {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--primary);
+      background: rgba(37, 99, 235, 0.1);
+      padding: 2px 9px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .stat-value {
+      margin-top: 6px;
+      font-size: 1.75rem;
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--text);
+    }
+    .stat-card.highlight .stat-value {
+      color: var(--primary);
+    }
+
+    .filter-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 6px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+    }
+    .filter-btn {
+      font-family: inherit;
+      font-size: 0.86rem;
+      font-weight: 600;
+      padding: 10px 8px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .filter-btn:hover {
+      color: var(--text);
+      background: var(--surface-soft);
+    }
+    .filter-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+    }
+
+    .table-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: right;
+    }
+    thead th {
+      background: var(--surface-soft);
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 13px 16px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    tbody tr {
+      transition: background 0.15s ease;
+    }
+    tbody td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+      font-size: 0.92rem;
+    }
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+    tbody tr:hover {
+      background: #f8fafc;
+    }
+    tbody tr.is-mine {
+      background: #f5f9ff;
+    }
+    tbody tr.is-mine:hover {
+      background: #ebf3ff;
+    }
+
+    .col-rank {
+      width: 66px;
+      text-align: center;
+    }
+    .col-project {
+      min-width: 340px;
+      width: 44%;
+    }
+    .col-members {
+      min-width: 190px;
+      color: #334155;
+    }
+    .col-level {
+      white-space: nowrap;
+    }
+    .col-votes {
+      text-align: center;
+      width: 100px;
+      white-space: nowrap;
+    }
+
+    .rank-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      background: #f1f5f9;
+      color: #475569;
+    }
+    .rank-1 {
+      background: #fef3c7;
+      color: #b45309;
+    }
+    .rank-2 {
+      background: #e2e8f0;
+      color: #334155;
+    }
+    .rank-3 {
+      background: #ffedd5;
+      color: #c2410c;
+    }
+    .project-title {
+      font-weight: 600;
+      color: var(--text);
+    }
+    .mine-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--primary);
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .level-badge {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .level-1 {
+      background: var(--emerald-soft);
+      color: var(--emerald);
+    }
+    .level-2 {
+      background: var(--violet-soft);
+      color: var(--violet);
+    }
+    .vote-count {
+      display: inline-block;
+      min-width: 44px;
+      padding: 5px 12px;
+      border-radius: 10px;
+      background: #f1f5f9;
+      color: var(--text);
+      font-weight: 800;
+      font-size: 0.96rem;
+    }
+    .vote-unit {
+      display: none;
+    }
+    tr.is-mine .vote-count {
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    /* Clean, spacious mobile cards */
+    @media (max-width: 720px) {
+      body {
+        padding: 16px 14px 36px;
+      }
+      .track-tabs {
+        margin-bottom: 16px;
+        padding: 5px;
+        border-radius: 12px;
+      }
+      .track-tab {
+        font-size: 0.88rem;
+        padding: 9px 6px;
+        border-radius: 8px;
+      }
+      header {
+        margin-bottom: 14px;
+      }
+      header h1 {
+        font-size: 1.18rem;
+      }
+      .subtitle {
+        font-size: 0.8rem;
+      }
+      .stats {
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .stat-card {
+        padding: 14px 15px;
+        border-radius: 14px;
+      }
+      .stat-label {
+        font-size: 0.8rem;
+      }
+      .stat-sub {
+        font-size: 0.72rem;
+        padding: 2px 7px;
+      }
+      .stat-value {
+        margin-top: 6px;
+        font-size: 1.55rem;
+      }
+      .filter-group {
+        padding: 5px;
+        gap: 5px;
+        margin-bottom: 16px;
+        border-radius: 12px;
+      }
+      .filter-btn {
+        font-size: 0.8rem;
+        padding: 9px 4px;
+        border-radius: 8px;
+      }
+
+      .table-wrap {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        overflow: visible;
+      }
+      table, thead, tbody, tr, td {
+        display: block;
+        width: 100%;
+      }
+      thead {
+        display: none;
+      }
+      tbody {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      tbody tr {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 14px 16px;
+        box-shadow: var(--shadow);
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+          "rank votes"
+          "project project"
+          "members level";
+        align-items: center;
+        column-gap: 10px;
+        row-gap: 0;
+      }
+      tbody tr.is-mine {
+        border-color: var(--primary-border);
+        background: linear-gradient(135deg, #ffffff 0%, #f3f7ff 100%);
+      }
+      tbody td {
+        border: none;
+        padding: 0;
+        width: auto;
+        min-width: 0;
+      }
+      .col-rank {
+        grid-area: rank;
+        text-align: right;
+      }
+      .rank-pill {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        font-size: 0.84rem;
+      }
+      .col-votes {
+        grid-area: votes;
+        justify-self: end;
+        text-align: left;
+      }
+      .vote-count {
+        padding: 4px 11px;
+        border-radius: 999px;
+        font-size: 0.86rem;
+        font-weight: 700;
+      }
+      .vote-unit {
+        display: inline;
+        font-weight: 500;
+        font-size: 0.76rem;
+        color: var(--muted);
+        margin-right: 3px;
+      }
+      tr.is-mine .vote-unit {
+        color: var(--primary);
+        opacity: 0.85;
+      }
+      .col-project {
+        grid-area: project;
+        margin-top: 10px;
+      }
+      .project-title {
+        font-size: 0.96rem;
+        font-weight: 700;
+        line-height: 1.55;
+      }
+      .col-members {
+        grid-area: members;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #f1f5f9;
+        font-size: 0.83rem;
+        color: var(--muted);
+      }
+      .col-level {
+        grid-area: level;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #f1f5f9;
+        justify-self: end;
+        align-self: stretch;
+        display: flex;
+        align-items: center;
+      }
+      .level-badge {
+        font-size: 0.74rem;
+        padding: 3px 9px;
+      }
+      tr.is-mine .col-members,
+      tr.is-mine .col-level {
+        border-top-color: rgba(37, 99, 235, 0.12);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 id="pageTitle">جدول زنده پروژه‌های نمایشگاه مجازی کیبرد</h1>
+      <div class="subtitle" id="lastUpdated">در حال همگام‌سازی...</div>
+    </header>
+
+    <nav class="track-tabs" aria-label="بخش‌های نمایشگاه">
+      <button class="track-tab active" data-track="iot">IoT</button>
+      <button class="track-tab" data-track="game">Game</button>
+      <button class="track-tab" data-track="ai">AI</button>
+    </nav>
+
+    <section class="stats">
+      <div class="stat-card">
+        <div class="stat-label">
+          <span>مجموع کل آرا</span>
+        </div>
+        <div class="stat-value" id="totalVotesValue">۰</div>
+      </div>
+      <div class="stat-card highlight">
+        <div class="stat-label">
+          <span id="secondCardLabel">رأی من</span>
+          <span class="stat-sub" id="myRankBadge">رتبه -</span>
+        </div>
+        <div class="stat-value" id="secondCardValue">۰</div>
+      </div>
+    </section>
+
+    <div class="filter-group">
+      <button class="filter-btn active" data-filter="all" id="btnAll">همه</button>
+      <button class="filter-btn" data-filter="1" id="btnL1">متوسطه اول</button>
+      <button class="filter-btn" data-filter="2" id="btnL2">متوسطه دوم</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="col-rank">رتبه</th>
+            <th class="col-project">نام پروژه</th>
+            <th class="col-members">نام شرکت‌کننده</th>
+            <th class="col-level">دوره تحصیلی</th>
+            <th class="col-votes">تعداد رأی</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = "https://pro-api.kibordevents.com/virtual-exhibitions?page=1&pageSize=50";
+    const TRACK_CONFIG = {
+      iot: {
+        title: "جدول زنده پروژه‌های نمایشگاه IoT",
+        key: "d7d15d91-5d21-4487-9d10-37643f839a81",
+        myProjectId: 9,
+      },
+      game: {
+        title: "جدول زنده پروژه‌های نمایشگاه Game",
+        key: "8d8789f3-1a0f-49da-a92d-c7ff4971ce7a",
+        myProjectId: null,
+      },
+      ai: {
+        title: "جدول زنده پروژه‌های نمایشگاه AI",
+        key: "7b16f2af-2c8c-4e42-91c3-b13cb4561b64",
+        myProjectId: null,
+      },
+    };
+    const REFRESH_MS = 8000;
+
+    const allTracks = {"iot": [{"id": 106, "name": "رایکام", "members": "محمد مهدی معصومی", "level": 2, "voteCount": 1}, {"id": 9, "name": "مدرسه هوشمند", "members": "محمد داودی", "level": 1, "voteCount": 7}, {"id": 8, "name": "سامانه هوشمند پایش و مدیریت گیاهان با بهره‌گیری از اینترنت اشیا", "members": "آژوان عبداله زاده", "level": 1, "voteCount": 2}, {"id": 6, "name": "جاروبرقی صنعتی هوشمند", "members": "امید مختاریان دهکردی", "level": 2, "voteCount": 13}, {"id": 5, "name": "SHP72 (سیستم کنترل هوشمند خانه مبتنی بر بینایی ماشین و تشخیص احساسات)", "members": "سپهر حامدی مارالانی", "level": 2, "voteCount": 28}, {"id": 2, "name": "مدرسه یار", "members": "حامد روزافزای", "level": 2, "voteCount": 14}, {"id": 12, "name": "حرم هوشمند", "members": "حانیه عادل", "level": 1, "voteCount": 36}, {"id": 10, "name": "گلخانه هوشمند", "members": "ملیکا جهانی نژاد، فاطمه طاهريان", "level": 2, "voteCount": 14}, {"id": 109, "name": "دادرس‌آب | سامانه هوشمند پایش و مانیتورینگ قنوات", "members": "احسان عباسی، محمد صالح کمیلی نژاد", "level": 2, "voteCount": 1}, {"id": 13, "name": "نوین‌بایک | همراه هوشمند ایمنی و ضدسرقت دوچرخه (NovinBike)", "members": "حسین مختاری حسن آباد", "level": 1, "voteCount": 0}, {"id": 11, "name": "خانه نگر", "members": "بردیا مردان", "level": 2, "voteCount": 0}, {"id": 7, "name": "آسادم؛ تنظیم هوشمند کولر با استفاده از عادات کاربر", "members": "محمد جواد حاجی زاده", "level": 1, "voteCount": 0}, {"id": 4, "name": "HEALIX | هیلیوکس", "members": "محمدپارسا حجی", "level": 1, "voteCount": 0}, {"id": 3, "name": "پلمپ هوشمند تانکرهای سوختی (ناوگان حمل و نقل زمینی سوخت)", "members": "علی ضیایی", "level": 2, "voteCount": 0}], "game": [{"id": 14, "name": "Control", "members": "علیرضا مطلبی، طاهر کلابی", "level": 2, "voteCount": 2}, {"id": 13, "name": "Dead Wave", "members": "محمدرضا استادی، متین مقدسی، عبدالملک قربان‌پور", "level": 2, "voteCount": 17}, {"id": 12, "name": "Tower Slayer", "members": "امیرعلی دودانگه، محمد طاها برجعلی، مهرزاد شهسواری", "level": 2, "voteCount": 25}, {"id": 11, "name": "حفارچی", "members": "عرشیا پورحسین", "level": 1, "voteCount": 14}, {"id": 9, "name": "squash head", "members": "پرنیا بهرامی", "level": 1, "voteCount": 20}, {"id": 2, "name": "نور (Noor)", "members": "امیر مسعود آزادی", "level": 2, "voteCount": 8}, {"id": 10, "name": "دژ مه‌آلود : دفاع از قلعه", "members": "پارسا زارعی محمودآبادی", "level": 2, "voteCount": 19}, {"id": 4, "name": "Element 137", "members": "احسان انواری", "level": 2, "voteCount": 19}, {"id": 5, "name": "The memory of the Circle", "members": "مریم جلالی", "level": 2, "voteCount": 77}, {"id": 3, "name": "دلوار", "members": "متین نصرتی", "level": 1, "voteCount": 47}, {"id": 8, "name": "پینگو ؛محافظ خانه", "members": "محمد محمدی", "level": 2, "voteCount": 0}, {"id": 7, "name": "توپ گریز", "members": "محمد جواد رفیعی دولت آبادی", "level": 2, "voteCount": 0}, {"id": 6, "name": "My Mission", "members": "مهیار اکبری، حسین میرزائی", "level": 2, "voteCount": 0}], "ai": [{"id": 3, "name": "دستیار هوشمند فروش", "members": "آرمین متحدی", "level": 2, "voteCount": 9}, {"id": 6, "name": "مترجم زبان اشاره", "members": "فاطمه قربانی", "level": 1, "voteCount": 10}, {"id": 7, "name": "همیار هوشمند فیزیک دهم", "members": "یوسف همتی", "level": 2, "voteCount": 3}, {"id": 9, "name": "واژه‌نگر", "members": "روژان آقاعلیزاده", "level": 1, "voteCount": 5}, {"id": 14, "name": "تابلوخوان", "members": "علی نجف پور، امیررارسلان سیامرد، طاها نادری پور، مهدی‌یار ذبیحی", "level": 2, "voteCount": 6}, {"id": 16, "name": "تابلو خوان", "members": "آرشا شکری", "level": 2, "voteCount": 5}, {"id": 13, "name": "نیوتون پلاس", "members": "سوین صارم بافنده", "level": 2, "voteCount": 63}, {"id": 4, "name": "سولارای", "members": "ریحانه شاکر", "level": 1, "voteCount": 14}, {"id": 2, "name": "بهینه سازی مصرف انرژی", "members": "آیلا سلیمی", "level": 1, "voteCount": 137}, {"id": 11, "name": "پیکسل گارد", "members": "آرمان یزدانی", "level": 2, "voteCount": 89}, {"id": 10, "name": "سامانه هوشمند شناسایی آلودگی‌های بصری در محیط های شهری", "members": "سیده نرگس بخشیان", "level": 2, "voteCount": 58}, {"id": 1, "name": "پرسش‌یار فیزیک", "members": "علی خادم پیر", "level": 2, "voteCount": 7}, {"id": 5, "name": "سامانه تشخیص خطر رانندگی از روی تصویر", "members": "رامتین ایزدی", "level": 1, "voteCount": 0}, {"id": 8, "name": "سامانه هوشمند طراحی آزمون (Artion AI)", "members": "آرین سعیدی، مهیار آبی", "level": 1, "voteCount": 0}, {"id": 12, "name": "سیستم دستیار هوشمند ارزیابی و پایش ریسک در محیط های صنعتی(HSE)", "members": "فائزه بخشی", "level": 2, "voteCount": 0}, {"id": 15, "name": "Solar AI", "members": "محمدطاها انگوتی، کیان شاهری", "level": 1, "voteCount": 0}, {"id": 17, "name": "فیلرنای | PhylearnAI", "members": "اشکان درویشی", "level": 2, "voteCount": 0}]};
+    let activeTrack = "iot";
+    let activeFilter = "all";
+
+    const faDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+    const toFa = (val) => String(val).replace(/\d/g, (d) => faDigits[d]);
+
+    const escapeHtml = (str) =>
+      String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+
+    const pageTitleEl = document.getElementById("pageTitle");
+    const tableBody = document.getElementById("tableBody");
+    const totalVotesEl = document.getElementById("totalVotesValue");
+    const secondCardLabel = document.getElementById("secondCardLabel");
+    const secondCardValue = document.getElementById("secondCardValue");
+    const myRankBadge = document.getElementById("myRankBadge");
+    const lastUpdatedEl = document.getElementById("lastUpdated");
+    const trackButtons = document.querySelectorAll(".track-tab");
+    const filterButtons = document.querySelectorAll(".filter-btn");
+
+    function updateFilterCounts() {
+      const projects = allTracks[activeTrack] || [];
+      const total = projects.length;
+      const l1 = projects.filter((p) => p.level === 1).length;
+      const l2 = projects.filter((p) => p.level === 2).length;
+      document.getElementById("btnAll").textContent = `همه (${toFa(total)})`;
+      document.getElementById("btnL1").textContent = `متوسطه اول (${toFa(l1)})`;
+      document.getElementById("btnL2").textContent = `متوسطه دوم (${toFa(l2)})`;
+    }
+
+    function render() {
+      const cfg = TRACK_CONFIG[activeTrack];
+      const projects = allTracks[activeTrack] || [];
+
+      const sorted = [...projects].sort((a, b) => b.voteCount - a.voteCount || a.id - b.id);
+      const totalVotes = sorted.reduce((sum, p) => sum + p.voteCount, 0);
+      totalVotesEl.textContent = toFa(totalVotes);
+
+      if (cfg.myProjectId !== null) {
+        secondCardLabel.textContent = "رأی من";
+        const myIndex = sorted.findIndex((p) => p.id === cfg.myProjectId);
+        if (myIndex !== -1) {
+          secondCardValue.textContent = toFa(sorted[myIndex].voteCount);
+          myRankBadge.style.display = "inline-block";
+          myRankBadge.textContent = `رتبه ${toFa(myIndex + 1)}`;
+        }
+      } else {
+        secondCardLabel.textContent = "رأی نفر اول";
+        myRankBadge.style.display = "none";
+        secondCardValue.textContent = sorted.length ? toFa(sorted[0].voteCount) : "۰";
+      }
+
+      const visible = sorted
+        .map((p, idx) => ({ ...p, rank: idx + 1 }))
+        .filter((p) => activeFilter === "all" || String(p.level) === activeFilter);
+
+      tableBody.innerHTML = visible
+        .map((p) => {
+          const rankClass = p.rank <= 3 ? `rank-${p.rank}` : "";
+          const levelClass = p.level === 1 ? "level-1" : "level-2";
+          const levelLabel = p.level === 1 ? "متوسطه اول" : "متوسطه دوم";
+          const isMine = cfg.myProjectId !== null && p.id === cfg.myProjectId;
+          const mineDot = isMine ? '<span class="mine-dot" title="پروژه شما"></span>' : "";
+          return `
+            <tr class="${isMine ? "is-mine" : ""}">
+              <td class="col-rank"><span class="rank-pill ${rankClass}">${toFa(p.rank)}</span></td>
+              <td class="col-project"><div class="project-title">${mineDot}${escapeHtml(p.name)}</div></td>
+              <td class="col-members">${escapeHtml(p.members)}</td>
+              <td class="col-level"><span class="level-badge ${levelClass}">${levelLabel}</span></td>
+              <td class="col-votes"><span class="vote-count">${toFa(p.voteCount)}<span class="vote-unit"> رأی</span></span></td>
+            </tr>
+          `;
+        })
+        .join("");
+    }
+
+    async function fetchLiveVotes(track = activeTrack) {
+      const cfg = TRACK_CONFIG[track];
+      try {
+        const res = await fetch(API_URL, {
+          headers: { "x-event-key": cfg.key, "accept": "application/json" },
+          cache: "no-store",
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        const voteMap = new Map((data.result || []).map((item) => [item.id, Number(item.voteCount || 0)]));
+        (allTracks[track] || []).forEach((p) => {
+          if (voteMap.has(p.id)) p.voteCount = voteMap.get(p.id);
+        });
+        if (track === activeTrack) {
+          render();
+          const now = new Date();
+          const timeStr = now.toLocaleTimeString("fa-IR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+          lastUpdatedEl.textContent = `آخرین بروزرسانی: ${timeStr} (خودکار هر ${toFa(REFRESH_MS / 1000)} ثانیه)`;
+        }
+      } catch (err) {
+        if (track === activeTrack) {
+          lastUpdatedEl.textContent = "خطا در دریافت زنده (نمایش آخرین داده موجود)";
+        }
+      }
+    }
+
+    trackButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const nextTrack = btn.getAttribute("data-track");
+        if (nextTrack === activeTrack) return;
+        trackButtons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeTrack = nextTrack;
+        updateFilterCounts();
+        render();
+        fetchLiveVotes(activeTrack);
+      });
+    });
+
+    filterButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        filterButtons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeFilter = btn.getAttribute("data-filter");
+        render();
+      });
+    });
+
+    updateFilterCounts();
+    render();
+    fetchLiveVotes(activeTrack);
+    setInterval(() => fetchLiveVotes(activeTrack), REFRESH_MS);
+  </script>
+</body>
+</html>
