@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>جدول زنده پروژه‌های نمایشگاه مجازی کیبرد</title>
+  <title>جدول زنده پروژه‌های نمایشگاه مجازی کی‌برد</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -390,7 +390,7 @@
         padding: 14px 16px;
         box-shadow: var(--shadow);
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: minmax(0, 1fr) auto;
         grid-template-areas:
           "rank votes"
           "project project"
@@ -398,16 +398,23 @@
         align-items: center;
         column-gap: 10px;
         row-gap: 0;
+        overflow: hidden;
       }
       tbody tr.is-mine {
         border-color: var(--primary-border);
         background: linear-gradient(135deg, #ffffff 0%, #f3f7ff 100%);
       }
-      tbody td {
+      tbody td,
+      tbody td.col-rank,
+      tbody td.col-project,
+      tbody td.col-members,
+      tbody td.col-level,
+      tbody td.col-votes {
         border: none;
         padding: 0;
         width: auto;
         min-width: 0;
+        max-width: 100%;
       }
       .col-rank {
         grid-area: rank;
@@ -449,6 +456,7 @@
         font-size: 0.96rem;
         font-weight: 700;
         line-height: 1.55;
+        overflow-wrap: break-word;
       }
       .col-members {
         grid-area: members;
@@ -457,6 +465,7 @@
         border-top: 1px solid #f1f5f9;
         font-size: 0.83rem;
         color: var(--muted);
+        overflow-wrap: break-word;
       }
       .col-level {
         grid-area: level;
@@ -482,7 +491,7 @@
 <body>
   <div class="container">
     <header>
-      <h1 id="pageTitle">جدول زنده پروژه‌های نمایشگاه مجازی کیبرد</h1>
+      <h1 id="pageTitle">جدول زنده پروژه‌های نمایشگاه مجازی کی‌برد</h1>
       <div class="subtitle" id="lastUpdated">در حال همگام‌سازی...</div>
     </header>
 
